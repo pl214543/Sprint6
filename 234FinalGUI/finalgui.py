@@ -37,6 +37,9 @@ def movement(direction):
     with open(f'{extrauser}.txt', 'at') as f:
         f.write(f"{extrauser} pressed {direction} at " + current_time + "\n")
 
+    url = "http://192.168.1.25:5000"
+    requests.post(url, json={'command': direction})
+    
     update_log_text()
 
 
