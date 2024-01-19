@@ -2,9 +2,8 @@
 import tkinter as tk
 from tkinter.ttk import *
 from tkinter import *
-# import requests
+import requests
 from login import extrauser
-# from tkvideo import tkvideo
 
 import cv2
 from PIL import Image, ImageTk
