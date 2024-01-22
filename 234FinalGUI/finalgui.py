@@ -144,36 +144,6 @@ video_path = r"C:\Users\Ethan\Sprint6\234FinalGUI\input.mp4"
 cap = cv.VideoCapture(video_path)
 
 
-def update_video_feed():
-    ret, frame = cap.read()
-    if ret:
-        canny = do_canny(frame)
-        segment = do_segment(canny)
-        hough = cv.HoughLinesP(segment, 2, np.pi / 180, 100, np.array([]), minLineLength=100, maxLineGap=50)
-
-        if hough is not None and len(hough) > 0:
-            # Averages multiple detected lines from hough into one line for left border of lane and one line for right border of lane
-            lines = calculate_lines(frame, hough)
-            # Visualizes the lines
-            lines_visualize = visualize_lines(frame, lines)
-            # Overlays lines on frame by taking their weighted sums and adding an arbitrary scalar value of 1 as the gamma argument
-            output = cv.addWeighted(frame, 0.9, lines_visualize, 1, 1)
-            # Convert OpenCV image to PIL format
-            opencv_image = cv.cvtColor(output, cv.COLOR_BGR2RGBA)
-            pil_image = Image.fromarray(opencv_image)
-            # Convert PIL image to PhotoImage format
-            photo_image = ImageTk.PhotoImage(image=pil_image)
-            # Update the label widget with the new image
-            video_label.photo_image = photo_image
-            video_label.configure(image=photo_image)
-        else:
-            print("No lines detected. Showing Canny edge detection only.")
-
-        # Schedule the next update after 10 milliseconds
-        fen.after(10, update_video_feed)
-
-update_video_feed()
-
     # Frames are read by intervals of 10 milliseconds. The program breaks out of the while
 
 # line
