@@ -104,40 +104,26 @@ def calculate_coordinates(frame, parameters):
     x2 = int((y2 - intercept) / slope)
     return np.array([x1, y1, x2, y2])
 
-def visualize_lines(frame, lines, reduction_length=50):
+def visualize_lines(frame, lines):
     lines_visualize = np.zeros_like(frame)
     
     if lines is not None and len(lines) == 2:
-        for line in lines:
-            x1, y1, x2, y2 = line
-            slope = (y2 - y1) / (x2 - x1) if x2 - x1 != 0 else 0
-            intercept = y1 - slope * x1
-            shortened_x1 = int(x1 + reduction_length)
-            shortened_y1 = int(slope * shortened_x1 + intercept)
-            shortened_x2 = int(x2 - reduction_length)
-            shortened_y2 = int(slope * shortened_x2 + intercept)
-            cv.line(lines_visualize, (shortened_x1, shortened_y1), (shortened_x2, shortened_y2), (0, 255, 0), 5)
+        left_line = lines[0]
+        right_line = lines[1]
 
-        mid_x = (shortened_x1 + shortened_x2) // 2
-        mid_y = (shortened_y1 + shortened_y2) // 2
+        x1_left, y1_left, x2_left, y2_left = left_line
+        x1_right, y1_right, x2_right, y2_right = right_line
+
+        cv.line(lines_visualize, (x1_left, y1_left), (x2_left, y2_left), (0, 255, 0), 5)
+        cv.line(lines_visualize, (x1_right, y1_right), (x2_right, y2_right), (0, 255, 0), 5)
+
+        mid_x = (x1_left + x1_right) // 2
+        mid_y = (y1_left + y1_right) // 2
 
         center_line_length = frame.shape[1] // 2 - mid_x
         cv.line(lines_visualize, (mid_x, mid_y), (mid_x + center_line_length, mid_y), (0, 0, 255), 5)
 
     return lines_visualize
-
-
-def extend_line(line, extension_length):
-    x1, y1, x2, y2 = line
-    # Calculate the slope and intercept of the line
-    slope = (y2 - y1) / (x2 - x1)
-    intercept = y1 - slope * x1
-    # Extend the line by adding/subtracting the extension_length
-    extended_x1 = int(x1 - extension_length)
-    extended_y1 = int(slope * extended_x1 + intercept)
-    extended_x2 = int(x2 + extension_length)
-    extended_y2 = int(slope * extended_x2 + intercept)
-    return extended_x1, extended_y1, extended_x2, extended_y2
 
 
 # Create the main Tkinter window
@@ -148,7 +134,7 @@ label_widget = tk.Label(fen)
 label_widget.grid(row=1)
 
 # Create a frame for the video feed
-left = tk.Frame(fen, bg="grey", width=200, height=200)
+left = tk.Frame(fen, bg="grey", width=300, height=300)
 left.pack_propagate(False)
 tk.Label(left, text="Line Detection", fg="white", bg="black", anchor="center", justify="center").pack()
 left.grid(column=0, row=0, pady=5, padx=10, sticky="n")
@@ -158,7 +144,7 @@ video_label = tk.Label(left)
 video_label.pack()
 
 # The video feed is read in as a VideoCapture object
-#video_path = r"C:\Users\Ethan\Sprint6\234FinalGUI\input.mp4" if "input.mp4" is not working, you can change this to your file path
+#video_path = r"C:\Users\Ethan\Sprint6\234FinalGUI\input.mp4" If input.mp4 is not working, use the file path that leads directly to said video stream
 cap = cv.VideoCapture('input.mp4')
 
 
