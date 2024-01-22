@@ -158,8 +158,8 @@ video_label = tk.Label(left)
 video_label.pack()
 
 # The video feed is read in as a VideoCapture object
-video_path = r"C:\Users\Ethan\Sprint6\234FinalGUI\input.mp4"
-cap = cv.VideoCapture(video_path)
+#video_path = r"C:\Users\Ethan\Sprint6\234FinalGUI\input.mp4" if "input.mp4" is not working, you can change this to your file path
+cap = cv.VideoCapture('input.mp4')
 
 
 def update_video_feed():
