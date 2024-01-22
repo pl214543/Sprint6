@@ -119,14 +119,10 @@ def visualize_lines(frame, lines):
 
         mid_x = (x1_left + x1_right) // 2
         mid_y = (y1_left + y1_right) // 2
-
-        center_line_length = frame.shape[1] // 2 - mid_x
-        cv.line(lines_visualize, (mid_x, mid_y), (mid_x + center_line_length, mid_y), (0, 0, 255), 5)
+        cv.line(lines_visualize, (mid_x, mid_y), (mid_x, mid_y), (0, 0, 255), 5)
 
     return lines_visualize
 
-
-# Create the main Tkinter window
 
 
 # Create a label widget to display the video feed
@@ -144,8 +140,8 @@ video_label = tk.Label(left)
 video_label.pack()
 
 # The video feed is read in as a VideoCapture object
-#video_path = r"C:\Users\Ethan\Sprint6\234FinalGUI\input.mp4" If input.mp4 is not working, use the file path that leads directly to said video stream
-cap = cv.VideoCapture('input.mp4')
+video_path = r"C:\Users\Ethan\Sprint6\234FinalGUI\input.mp4"
+cap = cv.VideoCapture(video_path)
 
 
 def update_video_feed():
