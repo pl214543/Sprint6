@@ -7,7 +7,7 @@ from login import extrauser
 import numpy as np
 import cv2 as cv
 from PIL import Image, ImageTk
-video = cv.VideoCapture(0, cv.CAP_DSHOW)
+video = cv.VideoCapture(0)
 
 
 video.set(cv.CAP_PROP_FRAME_WIDTH, 300)
